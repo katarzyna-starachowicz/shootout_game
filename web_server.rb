@@ -13,8 +13,15 @@ loop do
                  game.action = random_action
                  my_message.start_play(random_action)
                elsif http.still_play?
-                 game.kick!(http.body)
-                 my_message.still_play(game)
+                 if game.action == http.action
+                   game.kick!(http.body)
+                   game.reverse_action
+                   game.end? ? my_message.game_end(game) : my_message.still_play(game)
+                 else
+                   my_message.wrong_action
+                 end
+               else
+                 my_message.wrong_message
                end
   socket.print "#{http.version} 200 OK\r\n" +
                "Content-Type: application/json\r\n" +

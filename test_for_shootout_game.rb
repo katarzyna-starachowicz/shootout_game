@@ -60,4 +60,29 @@ class ShootoutGameTest < Minitest::Test
       assert_equal 0, @game.player_points
     end
   end
+
+  def test_reversing_action
+    @game.action = "shoot"
+    @game.reverse_action
+    assert_equal "save", @game.action
+
+    @game.reverse_action
+    assert_equal "shoot", @game.action
+  end
+
+  def test_game_ending_true
+    @game.stub(:rand, 0) do
+      3.times { @game.kick!({hello: "play", action: "shoot", x: "1", y: "2"}) }
+      3.times { @game.kick!({hello: "play", action: "save", x: "0", y: "0"}) }
+      assert @game.end?
+    end
+  end
+
+  def test_game_ending_false
+    @game.stub(:rand, 0) do
+      2.times { @game.kick!({hello: "play", action: "shoot", x: "1", y: "2"}) }
+      3.times { @game.kick!({hello: "play", action: "save", x: "0", y: "0"}) }
+      assert !@game.end?
+    end
+  end
 end

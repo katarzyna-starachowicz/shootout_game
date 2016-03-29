@@ -42,4 +42,24 @@ class Game
     @shoots += 1
     add_points
   end
+
+  def reverse_action
+    @action = @action == "shoot" ? "save" : "shoot"
+  end
+
+  def end?
+    if @shoots.even?
+      if @player_points == 0 && @server_points == 3
+        true
+      elsif @player_points == 3 && @server_points == 0
+        true
+      elsif @player_points == 4 && @server_points <= 3
+        true
+      elsif @player_points <= 3 && @server_points == 4
+        true
+      elsif @shoots >= 10 && @player_points != @saver_points
+        true
+      end
+    end
+  end
 end

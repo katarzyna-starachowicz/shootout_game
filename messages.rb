@@ -47,4 +47,21 @@ class MyMessage
       shoots_together: game.shoots
     }.to_json
   end
+
+  def game_end(game)
+    {
+      player_turn: "end",
+      player_points: game.player_points,
+      server_points: game.server_points,
+      shoots_together: game.shoots
+    }.to_json
+  end
+
+  def wrong_action
+    {mistake: "wrong action"}.to_json
+  end
+
+  def wrong_message
+    {mistake: "wrong message"}.to_json
+  end
 end
