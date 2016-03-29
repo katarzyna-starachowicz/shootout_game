@@ -21,6 +21,14 @@ class Message
   def ask_new_game?
     body[:hello] == "play a new game"
   end
+
+  def still_play?
+    body[:hello] == "play" && !!/\A(shoot|save)\z/.match(body[:action]) && !!/\A(0|1|2|3|4)\z/.match(body[:x]) && !!/\A(0|1|2)\z/.match(body[:y])
+  end
+
+  def action
+    body[:action]
+  end
 end
 
 class MyMessage
@@ -29,5 +37,14 @@ class MyMessage
 
   def start_play(action)
     {player_turn: action}.to_json
+  end
+
+  def still_play(game)
+    {
+      player_turn: game.action,
+      player_points: game.player_points,
+      server_points: game.server_points,
+      shoots_together: game.shoots
+    }.to_json
   end
 end

@@ -12,6 +12,9 @@ loop do
                  game = Game.new
                  game.action = random_action
                  my_message.start_play(random_action)
+               elsif http.still_play?
+                 game.kick!(http.body)
+                 my_message.still_play(game)
                end
   socket.print "#{http.version} 200 OK\r\n" +
                "Content-Type: application/json\r\n" +
