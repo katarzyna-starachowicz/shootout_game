@@ -1,12 +1,22 @@
 class Game
-  attr_reader :player_points, :server_points
+  attr_reader :player_points, :server_points, :shoots
   attr_accessor :action
 
   def initialize
     @player_points = 0
     @server_points = 0
     @shoots = 0
+    @xy_player = {}
+    @xy_server = {}
     @action = nil
+  end
+
+  def xy_server
+    {x: rand(5), y: rand(3)}
+  end
+
+  def goal?
+    @xy_server != @xy_player
   end
 
   def player_point!
@@ -15,5 +25,21 @@ class Game
 
   def server_point!
     @server_points += 1
+  end
+
+  def add_points
+    if @action == "shoot"
+      player_point! if goal?
+    else
+      server_point! if goal?
+    end
+  end
+
+  def kick!(message_body)
+    @action = message_body[:action]
+    @xy_player = {x: message_body[:x].to_i, y: message_body[:y].to_i}
+    @xy_server = xy_server
+    @shoots += 1
+    add_points
   end
 end
