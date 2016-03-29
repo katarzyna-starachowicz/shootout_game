@@ -1,5 +1,6 @@
 require 'socket'
 require './messages'
+require './shootout_game'
 
 server = TCPServer.new('localhost', 2050)
 loop do
