@@ -5,25 +5,25 @@ require './shootout_game'
 server = TCPServer.new('localhost', 2050)
 loop do
   socket = server.accept
-  http = Message.new(socket)
-  my_message = MyMessage.new
-  response = if http.ask_new_game?
+  client_message = ClientMessage.new(socket) # the whole message
+  server_message = ServerMessage.new # will create only JSON body
+  response = if client_message.ask_new_game?
                random_action = rand(2).even? ? "shoot" : "save"
                @game = Game.new
                @game.action = random_action
-               my_message.start_play(random_action)
-             elsif http.still_play?
-               if @game.action == http.action
-                 @game.kick!(http.body)
+               server_message.start_play(random_action)
+             elsif client_message.still_play?
+               if @game.action == client_message.action
+                 @game.kick!(client_message.body)
                  @game.end? ? @game.over : @game.reverse_action
-                 my_message.after_kick(@game)
+                 server_message.after_kick(@game)
                else
-                 my_message.wrong_action
+                 server_message.wrong_action
                end
              else
-               my_message.wrong_message
+               server_message.wrong_message
              end
-  socket.print "#{http.version} 200 OK\r\n" +
+  socket.print "#{client_message.version} 200 OK\r\n" +
                "Content-Type: application/json\r\n" +
                "Content-Length: #{response.bytesize}\r\n" +
                "Connection: close\r\n"

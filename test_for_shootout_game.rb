@@ -27,7 +27,7 @@ class ShootoutGameTest < Minitest::Test
 
   def test_shooting_player_win
     @game.stub(:rand, 0) do
-      @game.kick!({hello: "play", action:"shoot", x:"1", y:"2"})
+      @game.kick!({ hello: "play", action:"shoot", x:"1", y:"2" })
       assert_equal 1, @game.shoots
       assert_equal 0, @game.server_points
       assert_equal 1, @game.player_points
@@ -36,7 +36,7 @@ class ShootoutGameTest < Minitest::Test
 
   def test_shooting_player_lost
     @game.stub(:rand, 0) do
-      @game.kick!({hello: "play", action:"shoot", x:"0", y:"0"})
+      @game.kick!({ hello: "play", action:"shoot", x:"0", y:"0" })
       assert_equal 1, @game.shoots
       assert_equal 0, @game.server_points
       assert_equal 0, @game.player_points
@@ -45,7 +45,7 @@ class ShootoutGameTest < Minitest::Test
 
   def test_saving_player_win
     @game.stub(:rand, 0) do
-      @game.kick!({hello: "play", action:"save", x:"0", y:"0"})
+      @game.kick!({ hello: "play", action:"save", x:"0", y:"0" })
       assert_equal 1, @game.shoots
       assert_equal 0, @game.server_points
       assert_equal 0, @game.player_points
@@ -54,7 +54,7 @@ class ShootoutGameTest < Minitest::Test
 
   def test_saving_player_lost
     @game.stub(:rand, 0) do
-      @game.kick!({hello: "play", action:"save", x:"2", y:"2"})
+      @game.kick!({ hello: "play", action:"save", x:"2", y:"2" })
       assert_equal 1, @game.shoots
       assert_equal 1, @game.server_points
       assert_equal 0, @game.player_points

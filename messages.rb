@@ -1,6 +1,6 @@
 require 'json'
 
-class Message
+class ClientMessage
   def initialize(socket)
     @socket = socket
   end
@@ -15,7 +15,7 @@ class Message
 
   def body
     body = @socket.recv(1000).split("\n").last if method == "POST"
-    Hash[JSON.parse(body).map { |key, value| [key.to_sym, value] }] #symbolize keys
+    Hash[JSON.parse(body).map { |key, value| [key.to_sym, value] }] # symbolize keys
   end
 
   def ask_new_game?
@@ -31,12 +31,9 @@ class Message
   end
 end
 
-class MyMessage
-  def initialize
-  end
-
+class ServerMessage
   def start_play(action)
-    {player_turn: action}.to_json
+    { player_turn: action }.to_json
   end
 
   def after_kick(game)
@@ -49,10 +46,10 @@ class MyMessage
   end
 
   def wrong_action
-    {mistake: "wrong action"}.to_json
+    { mistake: "wrong action" }.to_json
   end
 
   def wrong_message
-    {mistake: "wrong message"}.to_json
+    { mistake: "wrong message" }.to_json
   end
 end

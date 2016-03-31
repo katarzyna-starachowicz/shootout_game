@@ -12,7 +12,7 @@ class Game
   end
 
   def xy_server
-    {x: rand(5), y: rand(3)}
+    { x: rand(5), y: rand(3) }
   end
 
   def goal?
@@ -37,7 +37,7 @@ class Game
 
   def kick!(message_body)
     @action = message_body[:action]
-    @xy_player = {x: message_body[:x].to_i, y: message_body[:y].to_i}
+    @xy_player = { x: message_body[:x].to_i, y: message_body[:y].to_i }
     @xy_server = xy_server
     @shoots += 1
     add_points
