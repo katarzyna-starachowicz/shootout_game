@@ -39,18 +39,9 @@ class MyMessage
     {player_turn: action}.to_json
   end
 
-  def still_play(game)
+  def after_kick(game)
     {
       player_turn: game.action,
-      player_points: game.player_points,
-      server_points: game.server_points,
-      shoots_together: game.shoots
-    }.to_json
-  end
-
-  def game_end(game)
-    {
-      player_turn: "end",
       player_points: game.player_points,
       server_points: game.server_points,
       shoots_together: game.shoots

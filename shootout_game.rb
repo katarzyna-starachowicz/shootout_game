@@ -62,4 +62,8 @@ class Game
       end
     end
   end
+
+  def over
+    @action = "game over"
+  end
 end

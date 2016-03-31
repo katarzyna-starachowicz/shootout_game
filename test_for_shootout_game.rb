@@ -85,4 +85,9 @@ class ShootoutGameTest < Minitest::Test
       assert !@game.end?
     end
   end
+
+  def test_game_over
+    @game.over
+    assert_equal "game over", @game.action
+  end
 end
